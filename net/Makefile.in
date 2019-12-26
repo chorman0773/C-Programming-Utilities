@@ -8,7 +8,7 @@ LIBDIRS = $(UTIL_BUILDDIR)/io $(TOP_LEVEL_BUILDDIR)/openssl
 
 LIBRARIES = io ssl crypto
 
-OBJECTS = 
+OBJECTS = @builddir@/out/SocketIO.o
 
 INCLUDES = @srcdir@/include @srcdir@/../time/include @srcdir@/../io/include @top_srcdir@/
 
@@ -22,3 +22,6 @@ $(OUTPUT): $(OBJECTS)
 
 @builddir@/out/:
 	mkdir $@
+
+clean:
+	rm -f $(OBJECTS) $(OUTPUT)

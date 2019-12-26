@@ -7,6 +7,11 @@
 extern"C"{
 #endif
 
+/*
+* Returns a set of Stream Calls that sends and recieves data on a Stream Socket.
+* Both constructors take a single int fd, which shall be an open file descriptor bound to a socket
+*  with type SOCK_STREAM or SOCK_RAW.
+*/
 const StreamCalls* IO_streamSocket();
 
 

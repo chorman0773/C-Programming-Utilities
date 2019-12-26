@@ -2,7 +2,7 @@
 #include <string.h>
 #include <setjmp.h>
 #include <stdlib.h>
-#include <openssl.h>
+
 
 
 struct ShadeFile{

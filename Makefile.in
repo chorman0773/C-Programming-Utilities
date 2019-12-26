@@ -4,3 +4,12 @@ all:
 	+$(MAKE) -C collect all
 	+$(MAKE) -C shadenbt all
 	+$(MAKE) -C net all
+
+clean:
+	+$(MAKE) -C io clean
+	+$(MAKE) -C collect clean
+	+$(MAKE) -C shadenbt clean
+	+$(MAKE) -C net clean
+
+distclean: clean
+	rm -f Makefile io/Makefile collect/Makefile shadenbt/Makefile net/Makefile config.status config.log

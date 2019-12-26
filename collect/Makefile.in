@@ -22,3 +22,7 @@ $(OUTPUT): $(OBJECTS)
 
 @builddir@/out/:
 	mkdir $@
+
+clean:
+	rm -f $(OBJECTS) $(OUTPUT)
+

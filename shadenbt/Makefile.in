@@ -10,7 +10,7 @@ LIBRARIES = io ssl crypto collect
 
 OBJECTS = @builddir@/out/NBT.o @builddir@/out/ShadeNBT.o
 
-INCLUDES = @srcdir@/include @srcdir@/../time/include @srcdir@/../io/include @srcdir@/../collect/include @top_srcdir@/openssl/include
+INCLUDES = @srcdir@/include @srcdir@/../time/include @srcdir@/../io/include @srcdir@/../collect/include @top_srcdir@/openssl/include/openssl @top_builddir@/openssl/include/openssl
 
 all: $(OUTPUT)
 	
@@ -22,3 +22,7 @@ $(OUTPUT): $(OBJECTS)
 
 @builddir@/out/:
 	mkdir $@
+
+
+clean:
+	rm -f $(OBJECTS) $(OUTPUT)
