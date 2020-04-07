@@ -86,21 +86,21 @@ static void map_rotateRight(Node* node){
     nnew->parent = parent;
 }
 
-static void map_repair(Node* node){
-    if(!node->parent)
+static Node* map_repair(TreeMap* map,Node* node){
+    if(!node->parent) {
+        map->root = node;
         node->color = BLACK;
-    else if(node->parent->color == BLACK)
-        return;
+    }else if(node->parent->color == BLACK)
+        return node;
     else if(map_getUncle(node) && map_getUncle(node)->color == RED){
         node->parent->color = BLACK;
         map_getUncle(node)->color = BLACK;
         map_getGrandparent(node)->color = RED;
-        map_repair(map_getGrandparent(node));
+        map_repair(map,map_getGrandparent(node));
     }else{
         {
             Node* parent = map_getParent(node);
             Node* grandparent = map_getGrandparent(node);
-            
             if(node==parent->right && parent == grandparent->left){
                 map_rotateLeft(parent);
                 node = node->left;
@@ -110,17 +110,20 @@ static void map_repair(Node* node){
             }
         }
         {
-           Node* parent = map_getParent(node);
-           Node* grandparent = map_getGrandparent(node);
-           
-           if(node == parent->left)
-            map_rotateRight(grandparent);
-           else
-            map_rotateLeft(grandparent);
-           parent->color = BLACK;
-           grandparent->color = RED;
+            Node* parent = map_getParent(node);
+            Node* grandparent = map_getGrandparent(node);
+
+            if(node == parent->left)
+                map_rotateRight(grandparent);
+            else
+                map_rotateLeft(grandparent);
+            parent->color = BLACK;
+            grandparent->color = RED;
+            if(grandparent==map->root)
+                map->root = grandparent->parent;
         }
     }
+    return node;
 }
 
 
@@ -134,9 +137,9 @@ void map_put(TreeMap* map,const void* key,void* value){
         nnode->left = NULL;
         nnode->right = NULL;
         nnode->color = BLACK;
-	    map->root = nnode;
-	    map->serialNodes = LinkedList_new(NULL);
-	    LinkedList_pushBack(map->serialNodes,nnode);
+        map->root = nnode;
+        map->serialNodes = LinkedList_new(NULL);
+        LinkedList_pushBack(map->serialNodes,nnode);
         return;
     }
     while(true){
@@ -167,7 +170,8 @@ void map_put(TreeMap* map,const void* key,void* value){
     nnode->left = NULL;
     nnode->right = NULL;
     nnode->color = RED;
-    map_repair(nnode);
+    map_repair(map,nnode);
+
     LinkedList_pushBack(map->serialNodes,nnode);
 }
 
