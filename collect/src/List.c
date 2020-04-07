@@ -45,9 +45,11 @@ Iterator* LinkedList_insert(Iterator* it,void* v){
     nit->list = it->list;
     nit->prev = it;
     nit->next = it->next;
-    it->next = nit->next;
+    it->next = nit;
     if(!nit->next)
         it->list->back = nit;
+    else
+        nit->next->prev = nit;
     return nit;
 }
 void* LinkedList_dereference(Iterator* it){
@@ -79,6 +81,30 @@ Iterator* LinkedList_pushBack(LinkedList* list,void* value){
         list->begin = it;
     list->back = it;
     return it;
+}
+
+Iterator* LinkedList_insertBefore(Iterator* it,void* data){
+    Iterator* nit = (Iterator*)malloc(sizeof(Iterator));
+    nit->value = data;
+    nit->list = it->list;
+    nit->next = it;
+    nit->prev = it->prev;
+    it->prev = nit;
+    if(!nit->prev)
+        it->list->begin = nit;
+    else
+        nit->prev->next = nit;
+    return nit;
+}
+
+Iterator* LinkedList_insertOrdered(LinkedList* list,int(*cmp)(const void*,const void*),void* data){
+    for(Iterator* it = list->begin;it;it=it->next){
+        if(cmp(data,it->value)<=0)
+            return LinkedList_insertBefore(it,data);
+
+    }
+    //if we make it this far, just pushBack
+    return LinkedList_pushBack(list,data);
 }
 Iterator* LinkedList_back(LinkedList* list){
     return list->back;
