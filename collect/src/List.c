@@ -39,6 +39,9 @@ Iterator* LinkedList_begin(LinkedList* list){
 Iterator* LinkedList_next(Iterator* it){
     return it->next;
 }
+Iterator* LinkedList_prev(Iterator* it){
+    return it->prev;   
+}
 Iterator* LinkedList_insert(Iterator* it,void* v){
     Iterator* nit = (Iterator*)malloc(sizeof(Iterator));
     nit->value = v;
